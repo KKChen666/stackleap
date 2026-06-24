@@ -1,15 +1,13 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import type { SiteContent } from '../content'
 
-const items = [
-  { label: '前端', techs: 'React · Vue · Next.js · TypeScript' },
-  { label: '后端', techs: 'Node.js · Go · Python · FastAPI' },
-  { label: '云原生', techs: 'Docker · Kubernetes · Terraform' },
-  { label: '人工智能', techs: 'TensorFlow · PyTorch · LLM' },
-]
+type CapabilitiesProps = {
+  copy: SiteContent['capabilities']
+}
 
-export default function Capabilities() {
+export default function Capabilities({ copy }: CapabilitiesProps) {
   const ref = useRef<HTMLElement>(null)
 
   useGSAP(() => {
@@ -21,7 +19,7 @@ export default function Capabilities() {
       scrollTrigger: {
         trigger: ref.current,
         start: 'top 75%',
-        toggleActions: 'play none none none',
+        toggleActions: 'play none none reset',
       },
     })
 
@@ -32,7 +30,7 @@ export default function Capabilities() {
       scrollTrigger: {
         trigger: '.cap-line',
         start: 'top 85%',
-        toggleActions: 'play none none none',
+        toggleActions: 'play none none reset',
       },
     })
 
@@ -45,33 +43,34 @@ export default function Capabilities() {
       scrollTrigger: {
         trigger: '.cap-grid',
         start: 'top 85%',
-        toggleActions: 'play none none none',
+        toggleActions: 'play none none reset',
       },
     })
   }, { scope: ref })
 
   return (
-    <section id="能力" ref={ref} className="py-32 md:py-48 px-6 md:px-12">
+    <section id="capabilities" ref={ref} className="py-32 md:py-48 px-6 md:px-12">
       <div className="max-w-[1400px] mx-auto">
         <div className="cap-heading mb-16 md:mb-24">
           <div className="flex items-center gap-4 mb-4">
-            <span className="text-[11px] font-mono text-ink-3 tracking-wider">能力</span>
+            <span className="text-[11px] font-mono text-ink-3 tracking-wider">{copy.label}</span>
             <div className="h-px flex-1 bg-border max-w-12" />
           </div>
           <h2 className="font-display text-section font-normal text-ink max-w-2xl">
-            技术能力
+            {copy.title}
           </h2>
           <div className="cap-line h-px bg-border mt-6 origin-left" />
         </div>
 
         <div className="cap-grid grid grid-cols-1 md:grid-cols-2 gap-px bg-border rounded-lg overflow-hidden">
-          {items.map((item) => (
+          {copy.items.map((item) => (
             <div
               key={item.label}
               className="cap-item bg-canvas p-8 md:p-10 hover:bg-surface transition-colors duration-500 group"
             >
               <h3 className="font-display text-2xl md:text-3xl text-ink mb-3 group-hover:text-accent transition-colors duration-300">{item.label}</h3>
-              <p className="text-sm text-ink-3 font-mono">{item.techs}</p>
+              <p className="text-sm text-ink-3 font-mono mb-5">{item.techs}</p>
+              <p className="text-sm leading-relaxed text-ink-2 max-w-md">{item.detail}</p>
             </div>
           ))}
         </div>
